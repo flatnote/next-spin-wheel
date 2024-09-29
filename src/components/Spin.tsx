@@ -11,6 +11,23 @@ export default function Spin() {
 
   const alertPrize = (segment: any) => {
     alert(`You have won ${segment.text}`);
+    reset();
+  };
+
+  const reset = () => {
+    wheelInstance.current.stopAnimation(false);
+    wheelInstance.current.rotationAngle = 0;
+    wheelInstance.current.draw();
+    setIsSpininng(false);
+  };
+
+  const spin = () => {
+    if (isSpininng) {
+      return;
+    }
+
+    setIsSpininng(true);
+    wheelInstance.current.startAnimation();
   };
 
   useEffect(() => {
@@ -38,25 +55,6 @@ export default function Spin() {
       },
     });
   }, []);
-
-  const reset = () => {
-    wheelInstance.current.stopAnimation(false);
-    wheelInstance.current.rotationAngle = 0;
-    wheelInstance.current.draw();
-    setIsSpininng(false);
-  };
-
-  const spin = () => {
-    if (isSpininng) {
-      return;
-    }
-
-    setIsSpininng(true);
-    wheelInstance.current.startAnimation();
-    setTimeout(() => {
-      reset();
-    }, 5600);
-  };
 
   return (
     <div className="grid grid-rows-1 md:grid-cols-4 2xl:grid-cols-12 items-center gap-8">
