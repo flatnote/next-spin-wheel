@@ -9,7 +9,7 @@ export default function Home() {
   const isModernBrowser = detectModernBrowser(userAgent || "");
   return (
     <div
-      className={`grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] ${
+      className={`grid items-center justify-items-center font-[family-name:var(--font-geist-sans)] ${
         isModernBrowser ? "min-h-svh" : "min-h-screen"
       }`}
     >

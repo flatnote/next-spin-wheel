@@ -1,4 +1,5 @@
 import Image from "next/image";
+import GithubImage from "../../public/icons/github-mark.svg";
 
 export default function Footer() {
   return (
@@ -11,8 +12,8 @@ export default function Footer() {
       >
         <Image
           aria-hidden
-          src="/icons/github-mark.svg"
-          alt="File icon"
+          src={GithubImage}
+          alt="Github icon"
           width={16}
           height={16}
         />

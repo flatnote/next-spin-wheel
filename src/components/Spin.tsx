@@ -2,12 +2,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import Image from "next/image";
 import React, { useRef, useEffect, useState } from "react";
 import { Winwheel } from "winwheel-module";
+
+import SpinBtn from "../../public/images/spin-marker-normal.png"
 
 export default function Spin() {
   const wheelInstance = useRef<any>();
   const [isSpininng, setIsSpininng] = useState(false);
+  const audio = new Audio("/sounds/tick.mp3");
 
   const alertPrize = (segment: any) => {
     alert(`You have won ${segment.text}`);
@@ -30,6 +34,14 @@ export default function Spin() {
     wheelInstance.current.startAnimation();
   };
 
+  const playSound = () => {
+    audio.pause();
+    audio.currentTime = 0;
+
+    // Play the sound.
+    audio.play();
+  };
+
   useEffect(() => {
     wheelInstance.current = new Winwheel({
       numSegments: 8, // Specify number of segments.
@@ -37,14 +49,14 @@ export default function Spin() {
       textFontSize: 28, // Set font size as desired.
       // Define segments including colour and text.
       segments: [
-        { fillStyle: "#eae56f", text: "Prize 1" },
-        { fillStyle: "#89f26e", text: "Prize 2" },
-        { fillStyle: "#7de6ef", text: "Prize 3" },
-        { fillStyle: "#e7706f", text: "Prize 4" },
-        { fillStyle: "#eae56f", text: "Prize 5" },
-        { fillStyle: "#89f26e", text: "Prize 6" },
-        { fillStyle: "#7de6ef", text: "Prize 7" },
-        { fillStyle: "#e7706f", text: "Prize 8" },
+        { fillStyle: "#eae56f", text: "5$" },
+        { fillStyle: "#89f26e", text: "10$" },
+        { fillStyle: "#7de6ef", text: "20$" },
+        { fillStyle: "#e7706f", text: "50$" },
+        { fillStyle: "#eae56f", text: "100$" },
+        { fillStyle: "#89f26e", text: "200$" },
+        { fillStyle: "#7de6ef", text: "500$" },
+        { fillStyle: "#e7706f", text: "1000$" },
       ],
       // Specify the animation to use.
       animation: {
@@ -52,31 +64,31 @@ export default function Spin() {
         duration: 5, // Duration in seconds.
         spins: 8, // Number of complete spins.
         callbackFinished: alertPrize,
+        callbackSound: playSound, // Function to call when the tick sound is to be triggered.
       },
     });
   }, []);
 
   return (
-    <div className="grid grid-rows-1 md:grid-cols-4 2xl:grid-cols-12 items-center gap-8">
-      <div className="hidden 2xl:block 2xl:col-span-3"></div>
-      <div className="xl:col-span-3 flex justify-center">
+    <div className="grid grid-rows-1 items-center gap-8">
+      <div className="xl:col-span-3 flex justify-center relative">
         <canvas id="canvas" width="434" height="434" className="w-5/6">
           <p className="text-white text-center">
             Sorry, your browser doesn't support canvas. Please try another.
           </p>
         </canvas>
-      </div>
-
-      <div className="xl:col-span-1 flex justify-center">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="disabled:cursor-not-allowed absolute w-max h-max top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           onClick={spin}
           disabled={isSpininng}
         >
-          Spin
+          <Image
+            className="object-contain w-24 h-24"
+            src={SpinBtn}
+            alt="Spin"
+          />
         </button>
       </div>
-      <div className="hidden 2xl:block 2xl:col-span-4"></div>
     </div>
   );
 }
