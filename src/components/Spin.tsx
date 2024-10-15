@@ -10,8 +10,7 @@ import SpinBtn from "../../public/images/spin-marker-normal.png"
 
 export default function Spin() {
   const wheelInstance = useRef<any>();
-  const [isSpininng, setIsSpininng] = useState(false);
-  const audio = new Audio("/sounds/tick.mp3");
+  const [isSpinning, setIsSpinning] = useState(false);
 
   const alertPrize = (segment: any) => {
     alert(`You have won ${segment.text}`);
@@ -22,24 +21,16 @@ export default function Spin() {
     wheelInstance.current.stopAnimation(false);
     wheelInstance.current.rotationAngle = 0;
     wheelInstance.current.draw();
-    setIsSpininng(false);
+    setIsSpinning(false);
   };
 
   const spin = () => {
-    if (isSpininng) {
+    if (isSpinning) {
       return;
     }
 
-    setIsSpininng(true);
+    setIsSpinning(true);
     wheelInstance.current.startAnimation();
-  };
-
-  const playSound = () => {
-    audio.pause();
-    audio.currentTime = 0;
-
-    // Play the sound.
-    audio.play();
   };
 
   useEffect(() => {
@@ -64,7 +55,6 @@ export default function Spin() {
         duration: 5, // Duration in seconds.
         spins: 8, // Number of complete spins.
         callbackFinished: alertPrize,
-        callbackSound: playSound, // Function to call when the tick sound is to be triggered.
       },
     });
   }, []);
@@ -80,7 +70,7 @@ export default function Spin() {
         <button
           className="disabled:cursor-not-allowed absolute w-max h-max top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           onClick={spin}
-          disabled={isSpininng}
+          disabled={isSpinning}
         >
           <Image
             className="object-contain w-24 h-24"
